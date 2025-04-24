@@ -16,7 +16,10 @@ def FrequentWords(text, kmer):
     for i in range(0, len(text) - kmer + 1):
         kmerCount[text[i:i + kmer]] = PatternCount(text, text[i:i + kmer])
 
-    return kmerCount
+    maxKmer = max(kmerCount)
+    maxKmerCount = max(kmerCount.values())
+    return maxKmer, maxKmerCount
+
 
 print(FrequentWords(vibrioCholeraeOri, 9))
 

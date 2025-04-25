@@ -9,7 +9,6 @@ def PatternCount(text, pattern):
             count += 1
     return count
 
-
 def FrequentWords(text, kmer):
     kmerCount = {}
     maxKmerDict = {}
@@ -41,14 +40,24 @@ def ReverseComplement(dnaString):
     
     return reverseComplement
 
-x = ReverseComplement("ATCG")
-print(x)
+def PatternMatching(pattern, genome):
+    complementPattern = ReverseComplement(pattern)
+    patternPoints = []
+    count = 0
+
+    for i in range(0, len(genome) - len(pattern) + 1):
+        if genome[i:i + len(pattern)] == pattern:
+            patternPoints.append(count)
+        elif genome[i:i + len(pattern)] == complementPattern:
+            patternPoints.append(count)
+        count += 1
+
+    return patternPoints
 
 
 
 
 
-    
 
 
 

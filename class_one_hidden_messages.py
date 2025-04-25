@@ -22,16 +22,28 @@ def FrequentWords(text, kmer):
     for i in kmerCount:
         if kmerCount[i] == maxKmerValue:
             maxKmerDict[i] = maxKmerValue
-    
-    print()
-    print(kmerCount)
-    print()
-
 
     return maxKmerDict
 
+def ReverseComplement(dnaString):
+    dnaString = dnaString[::-1]
+    reverseComplement = ""
 
-print(FrequentWords(vibrioCholeraeOri, 9))
+    for i in dnaString:
+        if i == "A":
+            reverseComplement = reverseComplement + "T"
+        if i == "T":
+            reverseComplement = reverseComplement + "A"
+        if i == "C":
+            reverseComplement = reverseComplement + "G"
+        if i == "G":
+            reverseComplement = reverseComplement + "C"
+    
+    return reverseComplement
+
+x = ReverseComplement("ATCG")
+print(x)
+
 
 
 

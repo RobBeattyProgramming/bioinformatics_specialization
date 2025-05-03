@@ -53,7 +53,7 @@ def PatternMatching(pattern, genome):
     return patternPoints
     
  
-def FindClumps(s, l, t, genome):
+"""def FindClumps(s, l, t, genome):
     clumpDict = {}
 
     for i in range(0, len(genome) - l + 1):
@@ -61,16 +61,107 @@ def FindClumps(s, l, t, genome):
         if len(repetitionPoints) >= t:
             clumpDict[genome[i:i + s]] = len(repetitionPoints)
     
-    return clumpDict
+    return clumpDict"""
 
-her = open("vib.txt", "r")
-x = her.read()
 
-"""all that's happening past this is seeing if there's enough
-    patterns to justify putting it into dictionary to return.
-    how can this be reduced?? """
+"""def FindClumps(kmerSize, clumpLength, repetitionAmount, genome):
+    #call if kmer in test, continue so less run time
+    kmerRepetitionDict = {}
 
-"""WAIT WAIT IS THE PROBLEM JUST THAT PATTERN MATCHING IS 
-    CHECKING THE WHOLE GENOME AND NOT THE CLUMP???"""
+    #iterates over genome in length of kmer
+    for i in range(0, len(genome) - clumpLength + 1):
+        clumpDict = {} #use for more info 
 
-print(FindClumps(9, 500, 3, x))
+        currentKmer = genome[i:i + kmerSize]
+        #checks for repeats of kmer and skips over if it is already in dict
+        if currentKmer in kmerRepetitionDict:
+            continue
+        else:
+            #checks repetition list via PatternMatching to see if at least t of kmer are in range
+            currentKmerRepetion = PatternMatching(currentKmer, genome)
+            if len(currentKmerRepetion) < repetitionAmount:
+                continue
+            else:
+                clumpRange = 0
+                for i in currentKmerRepetion:
+                    for j in range(1, len(currentKmerRepetion) - 1):
+                        if i - currentKmerRepetion[j] <= clumpLength:
+                            clumpRange = clumpRange + 1
+                        else:
+                            break
+                
+                if clumpRange >= repetitionAmount:
+                    clumpDict[currentKmer] = currentKmerRepetion
+      
+    return clumpDict"""
+
+"""#attempt of FindClumps above works correctly but is impossible to execute in large sizes
+def FindClumps(kmerSize, clumpLength, repetitionAmount, genome):
+    kmerDict = {}
+    qualifiedKmerDict = {}
+    finalDict = {} #clean up by just removing from qualified kmer dict
+    #iterates genome in segments of length kmer and tallies repeats
+    for i in range(0, len(genome) - clumpLength + 1):
+        currentKmer = genome[i:i + kmerSize]
+        if currentKmer in kmerDict:
+            # NEEDS TO PUT LOCATIONS LIKE PATTERN MATCH 
+            kmerDict[currentKmer] = kmerDict[currentKmer] + 1
+        else:
+            kmerDict[currentKmer] = 1
+    #iterates tallied kmer dict and adds to qualified kmer dict if repeats are equal or larger to repetitionAmount
+    for key in kmerDict:
+        if kmerDict[key] >= repetitionAmount:
+            qualifiedKmerDict[key] = kmerDict[key]
+    #PatternMatches qualified kmers 
+    for key in qualifiedKmerDict:
+        currentKmerRepetition = PatternMatching(key, genome)
+        currentKmerRepetition.reverse()
+        clumpRange = 1 #changed from 0
+        for i in currentKmerRepetition:
+            for j in range(1, len(currentKmerRepetition) - 1):
+                if i - currentKmerRepetition[j] <= clumpLength:
+                    clumpRange = clumpRange + 1
+                else:
+                    break
+                
+        if clumpRange >= repetitionAmount:
+            finalDict[key] = currentKmerRepetition
+
+    
+    return finalDict"""
+
+#attempt of FindClumps above works correctly but is impossible to execute in large sizes
+def FindClumps(kmerSize, clumpLength, repetitionAmount, genome):
+    kmerDict = {}
+    dupDict = {}
+
+    currentLocation = 0
+    #iterates genome in segments of length kmer and adds pattern locations
+    for i in range(0, len(genome) - clumpLength + 1):
+        currentKmer = genome[i:i + kmerSize]
+        if currentKmer in kmerDict:
+            kmerDict[currentKmer].append(currentLocation)
+        else:
+            kmerDict[currentKmer] = [currentLocation]
+        currentLocation = currentLocation + 1
+
+        dupDict = kmerDict
+        for key in dupDict:
+            if len(dupDict[key]) < repetitionAmount:
+                del kmerDict[key]
+                
+
+    return kmerDict
+x = open("ecoli.txt", "r")
+toot = x.read()
+
+testy = toot[0:100000]
+
+her = FindClumps(9, 500, 3, testy)
+print(her)
+
+
+
+
+
+ 

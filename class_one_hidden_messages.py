@@ -95,7 +95,17 @@ def Skew(genome):
 
     return skew
 
-sample = "GAGCCACCGCGATA"
+def MinimumSkew(genome):
+    skewGraph = Skew(genome)
+    minimumValue = min(skewGraph)
 
-x = Skew(sample)
-print(x)
+    minimumLocations = []
+    currentLocation = 0
+    for i in skewGraph:
+        if i == minimumValue:
+            minimumLocations.append(currentLocation)
+        currentLocation = currentLocation + 1
+    
+    return minimumLocations
+
+        

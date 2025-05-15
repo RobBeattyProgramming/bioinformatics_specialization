@@ -121,27 +121,27 @@ def HammingDistance(p,q):
 
     return hammingDistanceAmount
 
-def ApproximatePatternMatching(kmer, genome, hd):
+def ApproximatePatternMatching(text, genome, hd):
     startingPosition = 0
     startingPositionLocations = []
-    for i in range(len(genome) - len(kmer) + 1):
-        if genome[i:i+len(kmer)] == kmer:
+    for i in range(len(genome) - len(text) + 1):
+        if genome[i:i+len(text)] == text:
             startingPositionLocations.append(startingPosition)
             pass
-        elif HammingDistance(kmer, genome[i:i+len(kmer)]) <= hd:
+        elif HammingDistance(text, genome[i:i+len(text)]) <= hd:
             startingPositionLocations.append(startingPosition)
             
         startingPosition = startingPosition + 1
 
     return startingPositionLocations
 
-def PatternCountTwo(genome, kmer, hd):
+def PatternCountTwo(genome, text, hd):
     count = 0
-    for i in range(len(genome) - len(kmer) + 1):
-        if genome[i:i+len(kmer)] == kmer:
+    for i in range(len(genome) - len(text) + 1):
+        if genome[i:i+len(text)] == text:
             count = count + 1
             pass
-        elif HammingDistance(kmer, genome[i:i+len(kmer)]) <= hd:
+        elif HammingDistance(text, genome[i:i+len(text)]) <= hd:
             count = count + 1
     return count
 

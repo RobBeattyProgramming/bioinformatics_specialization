@@ -145,3 +145,46 @@ def PatternCountTwo(genome, text, hd):
             count = count + 1
     return count
 
+
+def ImmediateNeighbors(pattern):
+    neighborhood = []
+
+    #this will only work with d-range of 1 so far
+    for i in range(0, len(pattern)):
+        nucleotides = ["A", "C", "G", "T"]
+        patternList = list(pattern)
+        currentPatternNucleotide = patternList[i]
+
+        nucleotides.remove(currentPatternNucleotide)
+        for j in nucleotides:
+            patternList[i] = j
+            currentNeighbor = "".join(patternList)
+            neighborhood.append(currentNeighbor)
+
+            patternList = list(pattern)
+
+    neighborhood.append(pattern)
+
+    return neighborhood
+
+
+print(ImmediateNeighbors("GCT"))
+
+
+
+
+
+
+
+
+    
+    
+
+
+
+
+
+
+
+    
+

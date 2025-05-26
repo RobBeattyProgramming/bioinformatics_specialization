@@ -165,7 +165,6 @@ def ImmediateNeighbors(pattern):
 
     return neighborhood
 
-
 def Neighbors(pattern, d):
     if d == 0:
         return pattern
@@ -192,13 +191,31 @@ def Neighbors(pattern, d):
                 neighborhood.remove(xx)
 
         return list(set(neighborhood))
+
+def FrequentWordsWithMismatches(text, k, d):
+    patternCount = {}
+    maxKmers = []
     
-her = Neighbors("GTTAGAGTA", 3)
-print(*her)
+    for i in range(0, len(text) - k + 1):
+        currentKmer = text[i:i + k]
+        currentKmerNeighborhood = Neighbors(currentKmer, d)
 
+
+        for l in currentKmerNeighborhood:
+            if l not in patternCount:
+                patternCount[l] = 1
+            else:
+                count = patternCount[l]
+                updatedCount = count + 1
+                patternCount[l] = updatedCount
     
+    maxValue = max(patternCount.values())
+    for x in patternCount:
+        if patternCount[x] == maxValue:
+            maxKmers.append(x)
 
-
+    return maxKmers
+            
 
 
 

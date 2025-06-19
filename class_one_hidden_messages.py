@@ -280,7 +280,7 @@ def FrequentWordsWithMismatchesAndReverseComplements(text, k, d):
 
 # Module 3
     
-    
+
 def MotifEnumeration(dna, k, d):
     neighbors = {}
     dnaList = []
@@ -310,11 +310,29 @@ def MotifEnumeration(dna, k, d):
 
 
         currentSegment = currentSegment + 1
-    
-    return neighbors
 
+    # basic loop to make list from 1 to length of dna list
+    # loop to confirm list in dictionary
+    
+    neededNumber = len(dnaList)
+    confirmationList = []
+    for c in range(1, neededNumber + 1):
+        confirmationList.append(c)
+    
+    qualifiedKmers = []
+    
+    for potentialK in neighbors:
+        finalCount = 0
+        for kCount in confirmationList:
+            if kCount in neighbors[potentialK]:
+                finalCount = finalCount + 1
+        if finalCount ==  neededNumber:
+            qualifiedKmers.append(potentialK)
+    return qualifiedKmers
 
 
 testDNA = "ATTTGGC TGCCTTA CGGTATC GAAAATT"
+plspls = "TTGCGACTGCACTAGACATTTCATG ACGGCAGCACCCAGATGGGTAGAGT GTGTTACAGCCCAACCGCTGTAGTG CGATCACTGCGAATCTTTACTTCTT ACGGCACGAGAGACGACTCGCCCGG TCCTTGACGATCCGCACAGCATCTA"
 
-print(MotifEnumeration(testDNA, 3, 1))
+her = MotifEnumeration(plspls, 5, 1)
+print(*her)

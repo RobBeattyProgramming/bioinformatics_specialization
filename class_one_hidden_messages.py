@@ -214,22 +214,107 @@ def FrequentWordsWithMismatches(text, k, d):
         if patternCount[x] == maxValue:
             maxKmers.append(x)
 
+    return maxKmers         
+
+def FrequentWordsWithMismatchesAndReverseComplements(text, k, d):
+    patternCount = {}
+    maxKmers = []
+    
+    for i in range(0, len(text) - k + 1):
+        currentKmer = text[i:i + k]
+        reverseKmer = ReverseComplement(currentKmer)
+        currentKmerNeighborhood = Neighbors(currentKmer, d)
+        reverseNeighborhood = Neighbors(reverseKmer, d)
+
+
+        for l in currentKmerNeighborhood:
+            if l not in patternCount:
+                patternCount[l] = 1
+            else:
+                count = patternCount[l]
+                updatedCount = count + 1
+                patternCount[l] = updatedCount
+
+        for lr in reverseNeighborhood:
+            if lr not in patternCount:
+                patternCount[lr] = 1
+            else:
+                count = patternCount[lr]
+                updatedCount = count + 1
+                patternCount[lr] = updatedCount
+    
+    reverseGenome = ReverseComplement(text)
+
+    for i in range(0, len(reverseGenome) - k + 1):
+        currentKmer = text[i:i + k]
+        reverseKmer = ReverseComplement(currentKmer)
+        currentKmerNeighborhood = Neighbors(currentKmer, d)
+        reverseNeighborhood = Neighbors(reverseKmer, d)
+
+
+        for j in currentKmerNeighborhood:
+            if j not in patternCount:
+                patternCount[j] = 1
+            else:
+                count = patternCount[j]
+                updatedCount = count + 1
+                patternCount[j] = updatedCount
+
+        for jr in reverseNeighborhood:
+            if jr not in patternCount:
+                patternCount[jr] = 1
+            else:
+                count = patternCount[jr]
+                updatedCount = count + 1
+                patternCount[jr] = updatedCount
+    
+    reverseGenome = ReverseComplement(text)
+
+    
+    maxValue = max(patternCount.values())
+    for x in patternCount:
+        if patternCount[x] == maxValue:
+            maxKmers.append(x)
+
     return maxKmers
-            
 
-
-
-
-
-
+# Module 3
     
     
+def MotifEnumeration(dna, k, d):
+    neighbors = {}
+    dnaList = []
+
+    dnaSegment = ""
+    for i in dna:
+        if i == " ":
+            dnaList.append(dnaSegment)
+            dnaSegment = ""
+        else:
+            dnaSegment = dnaSegment + i
+    dnaList.append(dnaSegment)
+
+    currentSegment = 1
+    for segment in dnaList:
+        for x in range(0, len(segment) - k + 1):
+            kmer = segment[x: x + k]
+            kmerNeighbors = Neighbors(kmer, d)
+
+            for z in kmerNeighbors:
+                if z not in neighbors:
+                    neighbors[z] = [currentSegment]
+                else:
+                    currentKList = neighbors[z]
+                    currentKList.append(currentSegment)
+                    neighbors[z] = currentKList
 
 
-
-
-
-
-
+        currentSegment = currentSegment + 1
     
+    return neighbors
 
+
+
+testDNA = "ATTTGGC TGCCTTA CGGTATC GAAAATT"
+
+print(MotifEnumeration(testDNA, 3, 1))

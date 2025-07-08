@@ -1,3 +1,5 @@
+import math
+
 def PatternCount(text, pattern):
     count = 0
     kLength = len(pattern)
@@ -278,8 +280,7 @@ def FrequentWordsWithMismatchesAndReverseComplements(text, k, d):
 
     return maxKmers
 
-# Module 3
-    
+# Module 3  
 
 def MotifEnumeration(dna, k, d):
     neighbors = {}
@@ -310,9 +311,6 @@ def MotifEnumeration(dna, k, d):
 
 
         currentSegment = currentSegment + 1
-
-    # basic loop to make list from 1 to length of dna list
-    # loop to confirm list in dictionary
     
     neededNumber = len(dnaList)
     confirmationList = []
@@ -331,8 +329,81 @@ def MotifEnumeration(dna, k, d):
     return qualifiedKmers
 
 
-testDNA = "ATTTGGC TGCCTTA CGGTATC GAAAATT"
-plspls = "TTGCGACTGCACTAGACATTTCATG ACGGCAGCACCCAGATGGGTAGAGT GTGTTACAGCCCAACCGCTGTAGTG CGATCACTGCGAATCTTTACTTCTT ACGGCACGAGAGACGACTCGCCCGG TCCTTGACGATCCGCACAGCATCTA"
+test = "TCGGGGGTTTTT CCGGTGACTTAC ACGGGGATTTTC TTGGGGACTTTT AAGGGGACTTCC TTGGGGACTTCC TCGGGGATTCAT TCGGGGATTCCT TAGGGGAACTAC TCGGGTATAACC"
 
-her = MotifEnumeration(plspls, 5, 1)
-print(*her)
+def profile(strings):
+    
+    individualStrings = []
+    entropyList = []
+    dnaSegment = ""
+    for i in strings:
+        if i == " ":
+            individualStrings.append(dnaSegment)
+            dnaSegment = ""
+        else:
+            dnaSegment = dnaSegment + i
+    individualStrings.append(dnaSegment)
+
+    for x in range(0,len(individualStrings[0]) - 1):
+
+        nucleotideCount = {
+            "A":0,
+            "C":0,
+            "G":0,
+            "T":0
+        }
+
+        
+        for y in individualStrings:
+            if y[x] == "A":
+                count = nucleotideCount["A"]
+                updatedCount = count + 1
+                nucleotideCount["A"] = updatedCount
+            elif y[x] == "C":
+                count = nucleotideCount["C"]
+                updatedCount = count + 1
+                nucleotideCount["C"] = updatedCount
+            elif y[x] == "G":
+                count = nucleotideCount["G"]
+                updatedCount = count + 1
+                nucleotideCount["G"] = updatedCount
+            elif y[x] == "T":
+                count = nucleotideCount["T"]
+                updatedCount = count + 1
+                nucleotideCount["T"] = updatedCount
+        
+        a = float(nucleotideCount["A"]) / len(individualStrings)
+        c = float(nucleotideCount["C"]) / len(individualStrings)
+        g = float(nucleotideCount["G"]) / len(individualStrings)
+        t = float(nucleotideCount["T"]) / len(individualStrings)
+        profileList = [a, c, g, t]
+
+        aboveZero = []
+        for profile in profileList:
+            if profile > 0:
+                aboveZero.append(profile)
+
+        loggedList = []
+        for pp in aboveZero:
+            logged = math.log(pp, 2)
+            logged = pp * logged
+            loggedList.append(logged)
+        
+        summeedProfle = 0
+        for ppp in loggedList:   
+            summeedProfle = summeedProfle + ppp
+        
+        completedProfile = -1 * summeedProfle
+        roundedProfile = round(completedProfile, 3)
+        
+        entropyList.append(roundedProfile)
+
+    return entropyList
+
+        
+
+
+print(profile(test))
+            
+
+            

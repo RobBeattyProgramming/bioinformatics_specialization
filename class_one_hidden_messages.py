@@ -331,10 +331,12 @@ def MotifEnumeration(dna, k, d):
 
 test = "TCGGGGGTTTTT CCGGTGACTTAC ACGGGGATTTTC TTGGGGACTTTT AAGGGGACTTCC TTGGGGACTTCC TCGGGGATTCAT TCGGGGATTCCT TAGGGGAACTAC TCGGGTATAACC"
 
-def profile(strings):
+def profile(strings, method):
     
     individualStrings = []
     entropyList = []
+    scoreDict = {}
+    #score will be used in class, while entropy is more often used in practice
     dnaSegment = ""
     for i in strings:
         if i == " ":
@@ -377,6 +379,7 @@ def profile(strings):
         g = float(nucleotideCount["G"]) / len(individualStrings)
         t = float(nucleotideCount["T"]) / len(individualStrings)
         profileList = [a, c, g, t]
+        scoreDict[x] = ["A", a, "C", c, "G", g, "T", t]
 
         aboveZero = []
         for profile in profileList:
@@ -398,12 +401,18 @@ def profile(strings):
         
         entropyList.append(roundedProfile)
 
-    return entropyList
+
+
+    if method == "entropy":
+        return entropyList
+    else:
+        return scoreDict
+    
 
         
 
 
-print(profile(test))
+print(profile(test, "score"))
             
 
             

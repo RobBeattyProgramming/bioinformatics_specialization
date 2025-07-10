@@ -346,7 +346,7 @@ def profile(strings, method):
             dnaSegment = dnaSegment + i
     individualStrings.append(dnaSegment)
 
-    for x in range(0,len(individualStrings[0]) - 1):
+    for x in range(0,len(individualStrings[0])):
 
         nucleotideCount = {
             "A":0,
@@ -385,6 +385,7 @@ def profile(strings, method):
         for profile in profileList:
             if profile > 0:
                 aboveZero.append(profile)
+        
 
         loggedList = []
         for pp in aboveZero:
@@ -401,18 +402,15 @@ def profile(strings, method):
         
         entropyList.append(roundedProfile)
 
-
-
     if method == "entropy":
         return entropyList
+        #probability distribution
     else:
         return scoreDict
     
 
         
 
-
-print(profile(test, "score"))
             
 
             
